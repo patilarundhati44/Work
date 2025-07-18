@@ -1,0 +1,39 @@
+package com.studentmanagement.service;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import com.studentmanagement.model.Student;
+import com.studentmanagement.repository.StudentRepository;
+
+@Service
+public class StudentService {
+
+    @Autowired
+    private StudentRepository repo;
+
+    public List<Student> getAllStudents() {
+        return repo.findAll();
+    }
+
+    public Student getStudentById(Long id) {
+        return repo.findById(id).orElse(null);
+    }
+
+    public Student createStudent(Student student) {
+        return repo.save(student);
+    }
+
+    public Student updateStudent(Long id, Student student) {
+        Student existing = repo.findById(id).orElse(null);
+        if (existing != null) {
+            student.setStudent_id(id);
+            return repo.save(student);
+        }
+        return null;
+    }
+
+    public void deleteStudent(Long id) {
+        repo.deleteById(id);
+    }
+}
